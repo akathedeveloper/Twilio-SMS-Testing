@@ -1,11 +1,15 @@
 package com.example.twilio.controller;
 
 import com.example.twilio.model.CustomMessage;
+import com.example.twilio.model.CustomResponse;
 import com.example.twilio.service.TwilioService;
+import com.example.twilio.utils.CustomResponseUtil;
 import com.twilio.twiml.MessagingResponse;
 import com.twilio.twiml.messaging.Body;
 import com.twilio.twiml.messaging.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +23,13 @@ public class TwilioController {
     private TwilioService twilioService;
 
     @PostMapping("/send")
-    public void sendMessage(@RequestParam String to, @RequestParam String body) {
-        twilioService.sendMessage(to, body);
+     public ResponseEntity<CustomResponse<String>> sendMessage(@RequestParam String to, @RequestParam String body) {
+        try {
+            twilioService.sendMessage(to, body);
+            return CustomResponseUtil.createSuccessResponse("Message sent successfully", "Message sent");
+        } catch (Exception e) {
+            return CustomResponseUtil.createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), "Failed to send message");
+        }
     }
 
     @PostMapping(value = "/receive", produces = "application/xml")
@@ -43,7 +52,12 @@ public class TwilioController {
     }
 
     @GetMapping("/all")
-    public List<CustomMessage> getAllMessages() {
-        return twilioService.getAllMessages();
+    public ResponseEntity<CustomResponse<List<CustomMessage>>> getAllMessages() {
+        try {
+            List<CustomMessage> messages = twilioService.getAllMessages();
+            return CustomResponseUtil.createSuccessResponse(messages, "Messages retrieved successfully");
+        } catch (Exception e) {
+            return CustomResponseUtil.createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), "Failed to retrieve messages");
+        }
     }
 }

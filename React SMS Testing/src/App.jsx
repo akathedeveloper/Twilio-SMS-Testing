@@ -7,7 +7,7 @@ function App() {
     const [messages, setMessages] = useState([]);
 
     // Define your ngrok API URL
-    const API_URL = 'https://f659-223-226-133-13.ngrok-free.app/api/messages';
+    const API_URL = 'https://064f-2402-3a80-10d7-7eb2-e099-e5bf-5ed9-1599.ngrok-free.app/api/messages';
 
     // Create an Axios instance with custom headers
     const axiosInstance = axios.create({
@@ -21,15 +21,18 @@ function App() {
     const sendMessage = async (e) => {
         e.preventDefault();
         try {
-            console.log('Sending message to:', to);
-            console.log('Message body:', body);
-            await axiosInstance.post('/send', null, {
+            console.log("Sending TO", to);
+            console.log("Body data", body);
+            const response = await axiosInstance.post('/send', null, {
                 params: { to, body }
             });
-            alert('Message sent!');
-            fetchMessages();
+            if (response.data.statusCode === 200) {
+                alert('Message sent!');
+                fetchMessages();
+            } else {
+                alert('Failed to send message: ' + response.data.message);
+            }
         } catch (error) {
-            console.error('Error sending message:', error);
             alert('Failed to send message');
         }
     };
@@ -41,14 +44,19 @@ function App() {
             const response = await axiosInstance.get('/all');
             console.log('Fetch messages response status:', response.status);
             console.log('Fetch messages response data:', response.data);
-
-            if (Array.isArray(response.data)) {
-                setMessages(response.data);
-                console.log('Messages state updated:', response.data);
+             
+            if (response.data.statusCode === 200) {
+                setMessages(response.data.data);
             } else {
-                console.error('Unexpected response format:', response.data);
                 setMessages([]);
             }
+            // if (Array.isArray(response.data)) {
+            //     setMessages(response.data);
+            //     console.log('Messages state updated:', response.data);
+            // } else {
+            //     console.error('Unexpected response format:', response.data);
+            //     setMessages([]);
+            // }
         } catch (error) {
             console.error('Error fetching messages:', error);
             setMessages([]);
@@ -78,7 +86,9 @@ function App() {
                 <ul>
                     {messages.map((message, index) => (
                         <li key={index}>
-                            <strong>To: {message.to}</strong> - {message.body}
+                            <strong>From: {message.from} To: {message.to}</strong> - {message.body}
+                            <br />
+                            <small>Status: {message.status} | Timestamp: {new Date(message.timestamp).toLocaleString()}</small>
                         </li>
                     ))}
                 </ul>
