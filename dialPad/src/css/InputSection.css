@@ -1,0 +1,26 @@
+.input-section {
+    margin-bottom: 20px;
+  }
+  
+  .input-section input,
+  .input-section textarea {
+    width: 90%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .input-section button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .input-section button:hover {
+    background-color: #0056b3;
+  }
+  

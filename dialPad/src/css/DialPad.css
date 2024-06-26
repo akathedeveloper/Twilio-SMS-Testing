@@ -1,0 +1,22 @@
+.dial-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 150px;
+  }
+  
+  .dial-button {
+    padding: 20px;
+    font-size: 24px;
+    background-color: #f0f0f0;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .dial-button:active {
+    background-color: #d9d9d9;
+  }
+  
