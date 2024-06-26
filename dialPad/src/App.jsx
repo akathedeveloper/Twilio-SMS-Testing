@@ -11,15 +11,15 @@ const App = () => {
     const [messages, setMessages] = useState([]);
 
     // Define your ngrok API URL
-    const API_URL = 'https://8441-110-235-229-155.ngrok-free.app/api/messages';
+    const API_URL = 'https://e506-223-226-133-13.ngrok-free.app/api/messages';
 
     // Create an Axios instance with custom headers
     const axiosInstance = axios.create({
         baseURL: API_URL,
         headers: {
-            'ngrok-skip-browser-warning': true  // Set custom header to bypass ngrok warning page
+            'ngrok-skip-browser-warning': true
         },
-        withCredentials: true // Include this if your server requires credentials
+        withCredentials: true
     });
 
     // Function to send a message
@@ -34,6 +34,14 @@ const App = () => {
             if (response.data.statusCode === 200) {
                 alert('Message sent!');
                 fetchMessages();
+                setMessages(prevMessages => [
+                    ...prevMessages,
+                    {
+                        body,
+                        timeStamp: new Date().toISOString(),
+                        from: 'me'
+                    }
+                ]);
             } else {
                 alert('Failed to send message: ' + response.data.message);
             }
@@ -77,6 +85,7 @@ const App = () => {
                 <DialPad onDial={handleDial} />
             </div>
             <div className="right-section">
+                <h1>Chats</h1>
                 <ChatSection messages={messages} />
             </div>
         </div>

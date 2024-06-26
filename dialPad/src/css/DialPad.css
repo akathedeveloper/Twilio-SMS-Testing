@@ -1,22 +1,29 @@
+/* src/css/DialPad.css */
 .dial-pad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 150px;
-  }
-  
-  .dial-button {
-    padding: 20px;
-    font-size: 24px;
-    background-color: #f0f0f0;
-    color: #000;
-    border: 1px solid #ccc;
-    border-radius: 100%;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .dial-button:active {
-    background-color: #d9d9d9;
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 100px;
+}
+
+.dial-button {
+  width: 90px; /* Set a fixed width */
+  height: 90px; /* Set the height to be the same as the width */
+  font-size: 28px;
+  background-color: #5290ec;
+  color: #fff;
+  border: 1px solid #848689;
+  border-radius: 50%; /* Make the button circular */
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex; /* Center the text inside the button */
+  justify-content: center; /* Center the text horizontally */
+  align-items: center; /* Center the text vertically */
+}
+
+.dial-button:active {
+  background-color: #d9d9d9;
+}
+.dial-button:hover {
+  background-color: #d9d9d9;
+}
