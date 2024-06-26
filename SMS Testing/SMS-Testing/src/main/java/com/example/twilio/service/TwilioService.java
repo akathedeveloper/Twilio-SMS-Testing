@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -40,16 +41,15 @@ public class TwilioService {
 
     public void sendMessage(String to, String body) {
         try{
-
-        
         Message message = Message.creator(
                 new PhoneNumber(to),
                 new PhoneNumber(fromPhoneNumber),
                 body
         ).create();
         Integer errorCode = message.getErrorCode(); // Get error code
-        int statusCode = errorCode != null ? errorCode.intValue() : 0; 
-       
+        int statusCode = errorCode != null ? errorCode.intValue() : 0;
+//        LocalDateTime timestamp = LocalDateTime.now();
+//        System.out.println("Sent message at: " + timestamp.format(DateTimeFormatter.ISO_DATE_TIME));
         CustomMessage customMessage = new CustomMessage(
             UUID.randomUUID().toString(),
             statusCode,
@@ -68,6 +68,8 @@ public class TwilioService {
     public void receiveMessage(String from, String body) {
         // Log or store the incoming message
         System.out.println("Received message from: " + from + " with body: " + body);
+        LocalDateTime timestamp = LocalDateTime.now();
+//        System.out.println("Received message at: " + timestamp.format(DateTimeFormatter.ISO_DATE_TIME));
         messages.add(new CustomMessage(UUID.randomUUID().toString(),200,from,fromPhoneNumber, body,LocalDateTime.now(),"RECEIVED"));
     }
 
